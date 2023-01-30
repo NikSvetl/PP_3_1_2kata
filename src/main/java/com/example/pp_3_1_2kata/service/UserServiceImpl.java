@@ -1,6 +1,6 @@
 package com.example.pp_3_1_2kata.service;
 
-import com.example.pp_3_1_2kata.dao.UserDao;
+import com.example.pp_3_1_2kata.repositories.UserRepository;
 import com.example.pp_3_1_2kata.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,42 +11,43 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userDao;
+    private final UserRepository userRepo;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
+    public UserServiceImpl(UserRepository userRepo) {
+        this.userRepo = userRepo;
     }
 
     @Override
     @Transactional
     public void addUser(User user) {
-        userDao.addUser(user);
+        userRepo.save(user);
 
     }
 
     @Override
     @Transactional
     public void updateUser(User user) {
-        userDao.updateUser(user);
+        userRepo.save(user);
 
     }
 
     @Override
     @Transactional
     public void removeUser(int id) {
-        userDao.removeUser(id);
+        userRepo.deleteById(id);
     }
 
     @Override
     @Transactional
     public User getUserById(int id) {
-        return userDao.getUserById(id);
+        return userRepo.getReferenceById(id);
     }
 
     @Override
     @Transactional
     public List<User> getListUsers() {
-        return userDao.getListUsers();
+
+        return userRepo.findAll();
     }
 }
